@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DOM Events Demo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#ff512f,#dd2476,#1fa2ff,#12d8fa);
+    background-size: 400% 400%;
+    animation: bgMove 10s ease infinite;
+    min-height:100vh;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+header{
+    background: linear-gradient(to right,#00c6ff,#0072ff);
+    color:white;
+    padding:25px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1100px;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap:25px;
+    padding:20px;
+}
+
+.card{
+    aspect-ratio:1/1;
+    padding:20px;
+    border-radius:20px;
+    background: linear-gradient(135deg,#f6d365,#fda085);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    transition:0.4s;
+    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+}
+
+.card:nth-child(2){background: linear-gradient(135deg,#84fab0,#8fd3f4);}
+.card:nth-child(3){background: linear-gradient(135deg,#fccb90,#d57eeb);}
+.card:nth-child(4){background: linear-gradient(135deg,#43e97b,#38f9d7);}
+.card:nth-child(5){background: linear-gradient(135deg,#fa709a,#fee140);}
+
+button{
+    margin-top:15px;
+    padding:10px 22px;
+    border:none;
+    border-radius:10px;
+    background: linear-gradient(to right,#667eea,#764ba2);
+    color:white;
+    cursor:pointer;
+}
+
+input{
+    margin-top:15px;
+    padding:10px;
+    width:100%;
+    border-radius:8px;
+    border:none;
+    outline:none;
+}
+
+.output{
+    margin-top:12px;
+    font-weight:bold;
+    color:#1f2937;
+}
+</style>
+</head>
+
+<body>
+
+<header>DOM Events & Gradient UI Demo</header>
+
+<div class="container">
+
+    <!-- CLICK / DBLCLICK -->
+    <div class="card">
+        <h3>Mouse Events</h3>
+        <button id="clickBtn">Click Me</button>
+        <div class="output" id="clickResult"></div>
+    </div>
+
+    <!-- HOVER -->
+    <div class="card" id="hoverBox">
+        <h3>Hover Event</h3>
+        <div class="output" id="hoverResult"></div>
+    </div>
+
+    <!-- KEYBOARD -->
+    <div class="card">
+        <h3>Keyboard Events</h3>
+        <input type="text" id="keyInput" placeholder="Type here">
+        <div class="output" id="keyResult"></div>
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+        <h3>Form Events</h3>
+        <form id="demoForm">
+            <input type="text" id="nameInput" placeholder="Your Name">
+            <button type="submit">Submit</button>
+        </form>
+        <div class="output" id="formResult"></div>
+    </div>
+
+    <!-- WINDOW -->
+    <div class="card">
+        <h3>Window Events</h3>
+        <div class="output" id="windowResult">Waiting...</div>
+    </div>
+
+</div>
+
+<script>
+// ELEMENT REFERENCES
+const clickBtn = document.getElementById("clickBtn");
+const clickResult = document.getElementById("clickResult");
+const hoverBox = document.getElementById("hoverBox");
+const hoverResult = document.getElementById("hoverResult");
+const keyInput = document.getElementById("keyInput");
+const keyResult = document.getElementById("keyResult");
+const nameInput = document.getElementById("nameInput");
+const demoForm = document.getElementById("demoForm");
+const formResult = document.getElementById("formResult");
+const windowResult = document.getElementById("windowResult");
+
+/* CLICK EVENTS */
+clickBtn.addEventListener("click",()=>{
+    clickResult.innerText="Button Clicked";
+});
+clickBtn.addEventListener("dblclick",()=>{
+    clickResult.innerText="Button Double Clicked";
+});
+
+/* HOVER EVENTS */
+hoverBox.addEventListener("mouseover",()=>{
+    hoverResult.innerText="Mouse Over";
+});
+hoverBox.addEventListener("mouseout",()=>{
+    hoverResult.innerText="Mouse Out";
+});
+
+/* KEYBOARD EVENTS */
+keyInput.addEventListener("keydown",(e)=>{
+    keyResult.innerText="Key Down : " + e.key;
+});
+keyInput.addEventListener("keyup",(e)=>{
+    keyResult.innerText="Key Up : " + e.key;
+});
+
+/* FORM EVENTS */
+nameInput.addEventListener("focus",()=>{
+    formResult.innerText="Input Focused";
+});
+nameInput.addEventListener("blur",()=>{
+    formResult.innerText="Input Blurred";
+});
+nameInput.addEventListener("input",(e)=>{
+    formResult.innerText="Typing : " + e.target.value;
+});
+demoForm.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    formResult.innerText="Form Submitted Successfully";
+});
+
+/* WINDOW EVENTS */
+window.addEventListener("load",()=>{
+    windowResult.innerText="Window Loaded";
+});
+window.addEventListener("resize",()=>{
+    windowResult.innerText="Window Resized";
+});
+window.addEventListener("scroll",()=>{
+    windowResult.innerText="Window Scrolled";
+});
+</script>
+
+</body>
+</html>

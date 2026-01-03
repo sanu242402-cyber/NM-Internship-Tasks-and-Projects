@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Registration Form</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#FFA500,#FF4500,#C71585);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:30px;
+    min-height:100vh;
+}
+
+.form-box{
+    width:320px;
+    padding:18px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.3);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.4);
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+h2{
+    text-align:center;
+    color:#fff;
+    margin-bottom:10px;
+}
+
+label{
+    color:#fff;
+    font-size:13px;
+    margin-top:8px;
+    display:block;
+}
+
+input,textarea,select{
+    width:100%;
+    padding:6px;
+    margin-top:4px;
+    border:none;
+    border-radius:5px;
+    outline:none;
+}
+
+textarea{
+    height:50px;
+    resize:none;
+}
+
+.gender,.skills{
+    display:flex;
+    gap:10px;
+    color:#fff;
+    font-size:13px;
+    margin-top:4px;
+    flex-wrap:wrap;
+}
+
+.gender label,.skills label{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+.error{
+    font-size:11px;
+    color:#ffdddd;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#FF8C00,#FF1493);
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#displayData{
+    margin-top:15px;
+    padding:12px;
+    background:rgba(255,255,255,0.9);
+    border-radius:10px;
+    color:#000;
+    font-size:13px;
+    display:none; /* Hidden by default */
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-box">
+<h2>Registration Form</h2>
+
+<label>Name</label>
+<input type="text" id="name">
+<div class="error" id="nameError"></div>
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<label>Gender</label>
+<div class="gender">
+<label><input type="radio" name="gender" value="Male"> Male</label>
+<label><input type="radio" name="gender" value="Female"> Female</label>
+</div>
+
+<label>Address</label>
+<textarea id="address"></textarea>
+
+<label>Email</label>
+<input type="text" id="email">
+<div class="error" id="emailError"></div>
+
+<label>Mobile Number</label>
+<input type="text" id="mobile">
+<div class="error" id="mobileError"></div>
+
+<label>Course</label>
+<select id="course">
+<option>Select</option>
+<option>Web Development</option>
+<option>Data Science</option>
+<option>AI & ML</option>
+</select>
+
+<label>Skills</label>
+<div class="skills">
+<label><input type="checkbox" value="HTML"> HTML</label>
+<label><input type="checkbox" value="CSS"> CSS</label>
+<label><input type="checkbox" value="JavaScript"> JavaScript</label>
+</div>
+
+<button type="button" id="submitBtn">Submit</button>
+
+<!-- Display Form Data Inside Form Box -->
+<div id="displayData"></div>
+</div>
+
+<script>
+const nameField=document.getElementById("name");
+const emailField=document.getElementById("email");
+const mobileField=document.getElementById("mobile");
+const dobField=document.getElementById("dob");
+const addressField=document.getElementById("address");
+const courseField=document.getElementById("course");
+const submitBtn=document.getElementById("submitBtn");
+const displayDiv=document.getElementById("displayData");
+
+/* NAME VALIDATION */
+nameField.addEventListener("input",function(){
+    nameField.value=nameField.value.replace(/[^a-zA-Z ]/g,"");
+});
+
+/* EMAIL VALIDATION */
+emailField.addEventListener("input",function(){
+    document.getElementById("emailError").innerText=
+    emailField.value.includes("@")?"":"Email must contain @";
+});
+
+/* MOBILE VALIDATION */
+mobileField.addEventListener("input",function(){
+    mobileField.value=mobileField.value.replace(/[^0-9]/g,"");
+    if(mobileField.value.length>10){
+        mobileField.value=mobileField.value.slice(0,10);
+    }
+    document.getElementById("mobileError").innerText=
+    mobileField.value.length===10?"":"Enter 10 digit number";
+});
+
+/* SUBMIT CLICK */
+submitBtn.addEventListener("click",function(){
+    const gender=document.querySelector('input[name="gender"]:checked');
+    const genderVal=gender?gender.value:"Not selected";
+
+    const skillsChecked=document.querySelectorAll('.skills input:checked');
+    const skillsArr=Array.from(skillsChecked).map(s=>s.value).join(", ")||"None";
+
+    displayDiv.innerHTML=`
+    <strong>Submitted Details:</strong><br>
+    Name: ${nameField.value}<br>
+    DOB: ${dobField.value}<br>
+    Gender: ${genderVal}<br>
+    Address: ${addressField.value}<br>
+    Email: ${emailField.value}<br>
+    Mobile: ${mobileField.value}<br>
+    Course: ${courseField.value}<br>
+    Skills: ${skillsArr}
+    `;
+    displayDiv.style.display="block"; // Show after submit
+});
+</script>
+
+</body>
+</html>
